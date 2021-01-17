@@ -1,2 +1,2 @@
 # js-learn
-JavaScript 学习
+JavaScript 重新学习
