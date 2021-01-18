@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .rect {
+        stroke: yellow;
+        stroke-width: 5;
+        fill: rosybrown;
+      }
+      .rect:hover {
+        stroke: royalblue;
+        fill: salmon;
+      }
+    </style>
+  </head>
+  <body>
+    <svg width="1000" height="1000">
+      <rect class="rect" x="50" y="50" width="250" height="150"></rect>
+    </svg>
+
+    <script>
+      var rect = document.querySelector(".rect");
+      rect.addEventListener(
+        "click",
+        function () {
+          rect.setAttribute("width", "350");
+          rect.setAttribute("height", "250");
+          rect.style.fill = "orangered";
+
+          var sudu = 2;
+          var wezhi = 50;
+          setInterval(function () {
+            wezhi += sudu;
+            rect.setAttribute("x", wezhi);
+            if (wezhi > 1000) {
+              wezhi = 0;
+            }
+          }, 10);
+        },
+        false
+      );
+    </script>
+  </body>
+</html>
