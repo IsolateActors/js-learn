@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="600" height="600"
+      >浏览器不支持canas会显示此文本</canvas
+    >
+
+    <script>
+      var canvas = document.querySelector("#myCanvas");
+      //   if (!canvas.getContext) return;
+      var context = canvas.getContext("2d");
+
+      context.beginPath();
+
+      context.arc(300, 300, 100, 0, Math.PI * 2, true); //最后一个参数为是否为逆时针
+
+      context.moveTo(500, 400);
+      context.arc(400, 400, 100, 0, Math.PI, true);
+
+      context.fillStyle = "bisque";
+      context.fill();
+      context.stroke();
+    </script>
+  </body>
+</html>

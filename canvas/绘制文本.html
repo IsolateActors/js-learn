@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="600" height="600"
+      >浏览器不支持canas会显示此文本</canvas
+    >
+
+    <script>
+      var canvas = document.querySelector("#myCanvas");
+      //   if (!canvas.getContext) return;
+      var context = canvas.getContext("2d");
+
+      context.beginPath();
+
+      context.font = "50px 微软雅黑";
+      context.shadowColor = "rgba(0,0,0,1)";
+      context.shadowOffsetX = 5;
+      context.shadowOffsetY = 5;
+      context.shadowBlur = 10;
+
+      // 弹幕
+      var x = 600;
+      setInterval(function () {
+        // 清除指定矩行区域
+        context.clearRect(0, 0, 600, 600);
+        x -= 1;
+        if (x < -100) {
+          x = 600;
+        }
+
+        context.fillText("你好", x, 100);
+
+        context.strokeText("Zon", x, 200);
+      }, 6);
+    </script>
+  </body>
+</html>
