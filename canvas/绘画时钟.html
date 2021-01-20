@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #myCanvas {
+        background-color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="600" height="600"
+      >浏览器不支持canas会显示此文本</canvas
+    >
+
+    <script>
+      var myCanvas = document.querySelector("#myCanvas");
+
+      var ctx = myCanvas.getContext("2d");
+
+      function renderClock() {
+        // 清除
+        ctx.clearRect(0, 0, 600, 600);
+        // 保存原始
+        ctx.save();
+        ctx.translate(300, 300);
+        // 坐标旋转为12证上方
+        ctx.rotate((-2 * Math.PI) / 4);
+
+        // 保存移动后
+        ctx.save();
+
+        // 表盘
+        ctx.beginPath();
+        ctx.arc(0, 0, 200, 0, Math.PI * 2);
+        ctx.strokeStyle = "darkgrey";
+        ctx.lineWidth = 10;
+        ctx.stroke();
+        ctx.closePath();
+
+        // 时刻度
+        ctx.globalCompositeOperation = "destination-over"; //全局合成操作,destination-over新图像在旧图像下面
+        for (let i = 0; i < 12; i++) {
+          ctx.rotate((Math.PI * 2) / 12);
+          ctx.beginPath();
+          ctx.moveTo(180, 0);
+          ctx.lineTo(200, 0);
+          ctx.strokeStyle = "darkgrey";
+          ctx.stroke();
+          ctx.closePath();
+        }
+
+        // 恢复再保留
+        ctx.restore();
+        ctx.save();
+
+        // 数字
+        // 坐标旋转为12证上方
+        ctx.rotate((2 * Math.PI) / 4);
+        ctx.font = "20px Arial"; //定义字体大小和样式
+        ctx.textAlign = "center"; //将文本内容居中对齐
+        ctx.textBaseline = "middle"; //将文本基线设置为中线
+        ctx.fillStyle = "darkgrey";
+        for (let i = 0; i < 12; i++) {
+          var x = Math.cos(((Math.PI * 2) / 12) * i) * 160;
+          var y = Math.sin(((Math.PI * 2) / 12) * i) * 160;
+          ctx.fillText(i + 3 > 12 ? i + 3 - 12 : i + 3, x, y);
+        }
+
+        // 恢复再保留
+        ctx.restore();
+        ctx.save();
+
+        // 分刻度
+        ctx.globalCompositeOperation = "destination-over"; //全局合成操作,destination-over新图像在旧图像下面
+        for (let i = 0; i < 60; i++) {
+          ctx.rotate((Math.PI * 2) / 60);
+          ctx.beginPath();
+          ctx.moveTo(180, 0);
+          ctx.lineTo(190, 0);
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "orangered";
+          ctx.stroke();
+          ctx.closePath();
+        }
+
+        ctx.restore();
+        // 时间
+        var time = new Date();
+        var hour = time.getHours();
+        hour = hour > 12 ? hour - 12 : hour;
+        var min = time.getMinutes();
+        var sec = time.getSeconds();
+        // console.log(hour + ":" + min + ":" + sec);
+
+        ctx.save();
+
+        // 绘制时针
+        ctx.beginPath();
+        ctx.rotate(
+          ((2 * Math.PI) / 12) * hour + ((2 * Math.PI) / 12 / 60) * min
+        ); // 旋转
+        ctx.moveTo(-15, 0);
+        ctx.lineTo(130, 0);
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "blue";
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.restore();
+        ctx.save();
+
+        // 绘制分针
+        ctx.beginPath();
+        ctx.rotate(((2 * Math.PI) / 60) * min + ((2 * Math.PI) / 3600) * sec); // 旋转
+        ctx.moveTo(-20, 0);
+        ctx.lineTo(150, 0);
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = "green";
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.restore();
+        ctx.save();
+
+        // 绘制秒针
+        ctx.beginPath();
+        ctx.rotate(((2 * Math.PI) / 60) * sec); // 旋转
+        ctx.moveTo(-25, 0);
+        ctx.lineTo(170, 0);
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "red";
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.restore();
+
+        // 绘制圆形
+        ctx.arc(0, 0, 5, 0, Math.PI * 2);
+        ctx.fillStyle = "orangered";
+        ctx.fill();
+
+        // 恢复到原始状态
+        ctx.restore();
+      }
+
+      setInterval(function () {
+        renderClock();
+      }, 1000);
+    </script>
+  </body>
+</html>
