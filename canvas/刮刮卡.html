@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .ggk {
+        width: 400px;
+        height: 100px;
+        position: relative;
+      }
+      .ggk .jp {
+        width: 400px;
+        height: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        text-align: center;
+        line-height: 100px;
+      }
+      .ggk #myCanvas {
+        width: 400px;
+        height: 100px;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ggk">
+      <div class="jp">再来一瓶</div>
+      <canvas id="myCanvas" width="400" height="100"
+        >浏览器不支持canas会显示此文本</canvas
+      >
+    </div>
+
+    <script>
+      var ggkDom = document.querySelector(".ggk");
+      var jpDom = document.querySelector(".jp");
+      var myCanvas = document.querySelector("#myCanvas");
+
+      var ctx = myCanvas.getContext("2d");
+
+      ctx.fillStyle = "darkgray";
+      ctx.fillRect(0, 0, 400, 100);
+      ctx.font = "20px 微软雅黑";
+      ctx.fillStyle = "#fff";
+      ctx.fillText("刮刮卡", 170, 60);
+
+      var isDraw = false;
+      myCanvas.onmousedown = function () {
+        isDraw = true;
+        console.log(isDraw);
+      };
+      myCanvas.onmousemove = function (e) {
+        if (isDraw) {
+          // console.log(e);
+          // console.log([ggkDom]);
+          var x = e.pageX - ggkDom.offsetLeft;
+          var y = e.pageY - ggkDom.offsetTop;
+          ctx.globalCompositeOperation = "destination-out";
+          ctx.arc(x, y, 20, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+      };
+      myCanvas.onmouseup = function () {
+        isDraw = false;
+        console.log(isDraw);
+      };
+
+      var arr = [
+        {
+          content: "一等奖",
+          p: 0.1,
+        },
+        {
+          content: "二等奖",
+          p: 0.2,
+        },
+        {
+          content: "三等奖",
+          p: 0.3,
+        },
+      ];
+
+      var randomNum = Math.random();
+      if (randomNum < arr[0].p) {
+        jpDom.innerHTML = arr[0].content;
+      } else if (randomNum < arr[1].p) {
+        jpDom.innerHTML = arr[1].content;
+      } else if (randomNum < arr[2].p) {
+        jpDom.innerHTML = arr[2].content;
+      } else {
+        jpDom.innerHTML = "谢谢惠顾";
+      }
+    </script>
+  </body>
+</html>
