@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="caidan">
+      <div class="btn huabi active">画笔</div>
+      <div class="btn rect">矩行</div>
+      <div class="btn">圆形</div>
+      <div class="btn">线段粗细</div>
+      <div class="btn">画笔颜色</div>
+    </div>
+    <canvas id="myCanvas">浏览器不支持canas会显示此文本</canvas>
+
+    <script>
+      var myCanvas = document.querySelector("#myCanvas");
+      // console.log([myCanvas]);
+      // 设置canvas宽度和高度
+      myCanvas.setAttribute("width", myCanvas.offsetWidth);
+      myCanvas.setAttribute("height", myCanvas.offsetHeight);
+
+      var ctx = myCanvas.getContext("2d");
+      var huaban = {
+        type: "huabi",
+        isDraw: false,
+        beginX: 0,
+        beginY: 0,
+        imageData: null,
+        huabiFn: function (e) {
+          // console.log("b");
+          var x = e.pageX - myCanvas.offsetLeft;
+          var y = e.pageY - myCanvas.offsetTop;
+
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        },
+        rectFn: function (e) {
+          var x = e.pageX - myCanvas.offsetLeft;
+          var y = e.pageY - myCanvas.offsetTop;
+          ctx.clearRect(0, 0, myCanvas.offsetWidth, myCanvas.offsetHeight);
+          if (huaban.imageData != null) {
+            ctx.putImageData(
+              this.imageData,
+              0,
+              0,
+              0,
+              0,
+              myCanvas.offsetWidth,
+              myCanvas.offsetHeight
+            );
+          }
+          ctx.beginPath();
+          ctx.rect(this.beginX, this.beginY, x - this.beginX, y - this.beginY);
+          ctx.stroke();
+          ctx.closePath();
+        },
+      };
+
+      var allBtn = document.querySelectorAll(".btn");
+      var huabiBtn = document.querySelector(".huabi");
+      var rectBtn = document.querySelector(".rect");
+      huabiBtn.onclick = function () {
+        allBtn.forEach(function (item) {
+          item.classList.remove("active");
+        });
+        huabiBtn.classList.add("active");
+        huaban.type = "huabi";
+      };
+      rectBtn.onclick = function () {
+        allBtn.forEach(function (item) {
+          item.classList.remove("active");
+        });
+        rectBtn.classList.add("active");
+        huaban.type = "rect";
+      };
+
+      myCanvas.onmousedown = function (e) {
+        huaban.isDraw = true;
+        if (huaban.type == "rect") {
+          var x = e.pageX - myCanvas.offsetLeft;
+          var y = e.pageY - myCanvas.offsetTop;
+          huaban.beginX = x;
+          huaban.beginY = y;
+        }
+        if (huaban.type == "huabi") {
+          var x = e.pageX - myCanvas.offsetLeft;
+          var y = e.pageY - myCanvas.offsetTop;
+          huaban.beginX = x;
+          huaban.beginY = y;
+          ctx.moveTo(x, y);
+          ctx.beginPath();
+        }
+      };
+
+      myCanvas.onmousemove = function (e) {
+        if (huaban.isDraw) {
+          // console.log("aa");
+          huaban[huaban.type + "Fn"](e);
+        }
+      };
+
+      window.onmouseup = function () {
+        if (huaban.type == "huabi") {
+          ctx.closePath();
+        }
+        huaban.isDraw = false;
+        huaban.imageData = ctx.getImageData(
+          0,
+          0,
+          myCanvas.offsetWidth,
+          myCanvas.offsetHeight
+        );
+      };
+    </script>
+  </body>
+</html>

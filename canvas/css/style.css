@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100vw;
+  height: 100vh;
+}
+
+.caidan {
+  display: flex;
+  height: 100px;
+  width: 100vw;
+  border-bottom: 3px solid #ccc;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#myCanvas {
+  flex: 1;
+  width: 100vw;
+}
+.btn {
+  width: 150px;
+  height: 50px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  text-align: center;
+  line-height: 50px;
+  color: #999;
+}
+
+.active {
+  box-shadow: 0 0 20px skyblue;
+}
