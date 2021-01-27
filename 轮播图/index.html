@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/swiper.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="swiper">
+      <div class="imgList">
+        <div
+          class="imgItem active"
+          style="background-image: url(./img/1.jpg)"
+        ></div>
+        <div class="imgItem" style="background-image: url(./img/2.webp)"></div>
+        <div class="imgItem" style="background-image: url(./img/3.webp)"></div>
+        <div class="imgItem" style="background-image: url(./img/4.webp)"></div>
+        <div class="imgItem" style="background-image: url(./img/5.webp)"></div>
+      </div>
+      <div class="btnList">
+        <div class="btn pre" style="cursor: pointer"><</div>
+        <div class="btn next" style="cursor: pointer">></div>
+      </div>
+      <div class="circleList">
+        <div class="circleItem active"></div>
+        <div class="circleItem"></div>
+        <div class="circleItem"></div>
+        <div class="circleItem"></div>
+        <div class="circleItem"></div>
+      </div>
+    </div>
+
+    <script>
+      var prebtnDom = document.querySelector(".swiper .pre");
+      var nextbtnDom = document.querySelector(".swiper .next");
+      var imgListDivs = document.querySelectorAll(".imgList .imgItem");
+      var circleListDivs = document.querySelectorAll(".circleList .circleItem");
+
+      console.log(imgListDivs);
+      console.log(prebtnDom);
+      console.log(nextbtnDom);
+      var currentImg = 0;
+      nextbtnDom.onclick = function () {
+        currentImg += 1;
+        if (currentImg >= imgListDivs.length) currentImg = 0;
+        renderNumImg();
+      };
+
+      prebtnDom.onclick = function () {
+        currentImg -= 1;
+        if (currentImg < 0) currentImg = imgListDivs.length - 1;
+        renderNumImg();
+      };
+
+      function renderNumImg() {
+        imgListDivs.forEach(function (item, i) {
+          item.classList.remove("active");
+        });
+        circleListDivs.forEach(function (item, i) {
+          item.classList.remove("active");
+        });
+        imgListDivs[currentImg].classList.add("active");
+        circleListDivs[currentImg].classList.add("active");
+      }
+
+      for (let i = 0; i < circleListDivs.length; i++) {
+        circleListDivs[i].onclick = function () {
+          currentImg = i;
+          renderNumImg();
+        };
+      }
+    </script>
+  </body>
+</html>
