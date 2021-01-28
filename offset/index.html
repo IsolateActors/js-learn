@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .c1 {
+        position: relative;
+        padding: 40px;
+        border: 20px solid deeppink;
+      }
+      #d1 {
+        width: 200px;
+        height: 200px;
+        background-color: skyblue;
+        border: 40px solid red;
+        padding: 20px;
+        margin: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="c1">
+      <div id="d1">helloword</div>
+    </div>
+
+    <script>
+      var d1 = document.querySelector("#d1");
+      console.log([d1]);
+      console.log(d1.offsetWidth);
+      console.log(d1.offsetHeight);
+      console.log(d1.offsetLeft);
+      console.log(d1.offsetTop);
+
+      //   offsetWidth = content + padding + border (元素的宽)
+      // offsetHeight = content +padding + border(元素的高)
+
+      //   offsetLeft 距离父元素（padding开始，如无定位则往上找）左边的距离
+      // offsetTop 距离父元素（padding开始，如无定位则往上找）上边的距离
+
+      //   offsetParant 父元素，无定位则往上找
+    </script>
+  </body>
+</html>
