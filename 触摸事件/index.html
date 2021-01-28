@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 1.定义自定义事件
+      // 2.设置'swiperLeft'/'swiperRight'/'swiperTop'/'swiperBottom'事件
+      // 3.滑动事件必然包含1个触摸事件
+      // body.addEvent('swiperRight',function(){})
+
+      var zon = {
+        eventAll: {
+          // "自定义事件名称"：["事件要触发的函数1"，"事件要触发的函数2"...]
+        },
+        init: function (dom) {
+          dom.eventAll = {};
+          dom.addEvent = this.addEvent;
+          dom.emit = this.emit;
+          dom.removeEvent = this.removeEvent;
+          dom.touchData = {};
+
+          dom.addEvemtListener("touchstart", function (e) {
+            this.touchData.endX = e.touches[0].pageX;
+            this.touchData.endY = e.touchData[0].pageY;
+          });
+          dom.addEvemtListener("touchmove", function (e) {
+            this.touchData.startX = e.touches[0].pageX;
+            this.touchData.startY = e.touchData[0].pageY;
+          });
+          dom.addEvemtListener("touchend", function (e) {
+            var x = this.touchData.endX - this.touchData.startX;
+            var y = this.touchData.endY - this.touchData.startY;
+            if (Math.abs(x) > Math.abs(y) && Math.abs(x) > 100) {
+              if (x > 0) {
+                console.log("手指左划，屏幕向右移动");
+                dom.emit("swiperRight", e);
+              } else {
+                console.log("手指右划，屏幕向左移动");
+                dom.emit("swiperLeft", e);
+              }
+            } else if (Math.abs(x) < Math.abs(y) && Math.abs(y) > 100) {
+              if (y > 0) {
+                console.log("手指上划，屏幕向下移动");
+                dom.emit("swiperBottom", e);
+              } else {
+                console.log("手指下划，屏幕向上移动");
+                dom.emit("swiperTop", e);
+              }
+            }
+          });
+        },
+        addEvent: function (eventName, callBackFn) {
+          if (this.eventAll[eventName] == undefined) {
+            this.eventAll[eventName] = [];
+          }
+          this.eventAll[eventName].push(callBackFn);
+        },
+        emit: function (eventName, eventMsg) {
+          if (
+            Object.keys(this.eventAll) &&
+            this.eventAll[eventName] != undefined
+          ) {
+            this.eventAll[eventName].forEach(function (item, i) {
+              item(eventMsg);
+            });
+          }
+        },
+        removeEvent: function (eventName, callbackFn) {
+          this.eventAll[eventName].forEach((item, i) => {
+            if (item == callbackFn) {
+              this.eventAll[eventName].splice(i, 1);
+            }
+          });
+        },
+      };
+
+      //   zon.addEvent("swiperLeft", function (msg) {
+      //     console.log(msg);
+      //     console.log("1");
+      //   });
+
+      //   var fn = function (msg) {
+      //     console.log(msg);
+      //     console.log("2");
+      //   };
+      //   zon.addEvent("swiperLeft", fn);
+      //   zon.removeEvent("swiperLeft", fn);
+
+      //   zon.emit("swiperLeft", "左划");
+    </script>
+  </body>
+</html>
